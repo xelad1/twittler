@@ -1,27 +1,66 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Twittler by Alex</title>
     <script src="jquery.js"></script>
+    <script src="jquery-timeago\jquery.timeago.js" type="text/javascript"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles.css" media="screen" />
+
   </head>
   <body>
+    <h1>Twittler</h1>
+    <button>Tweet Me!</button>
     <script>
 
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+      
+      
 
-        var index = streams.home.length - 1;
+      $(document).ready(function(){
+        $('button').click(function() {
+          tweetIt();
+      });
+
+
+
+
+         function generateTweets() {
+        var myTimestamp = jQuery.timeago(new Date());
+       var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + myTimestamp + ".");
+          $tweet.appendTo('body');
           index -= 1;
         }
+      } 
+
+      $('individualTweetStream').click(function() {
+
+        
+
+      })
+        
+
+        
+        function tweetIt() {
+          var timer = setTimeout(function() {
+          generateTweets() }, 3000);
+
+          return timer;
+      }
+
+       generateTweets();
 
       });
 
+
+     
+
+    
+
     </script>
+    <div class="tweetbox" id="middle"></div>
   </body>
 </html>
