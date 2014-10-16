@@ -1,66 +1,72 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Twittler by Alex</title>
     <script src="jquery.js"></script>
     <script src="jquery-timeago\jquery.timeago.js" type="text/javascript"></script>
     <script src="data_generator.js"></script>
-    <link rel="stylesheet" type="text/css" href="Styles.css" media="screen" />
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="Styles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>
+        Twittler</h1>
+    <button>
+        Tweet Me!</button>
+    <div class="specificTweet">
+        <h4>Now Viewing</h4>
+        <span id="spName"></span> <br />
+        <span id="spMessage"></span>
+    </div>
+    <div class="tweets">
+        <a href="#" id="newTweetLink">
+        </a>Tweet Box
+        <div id="divAllTweets"></div>   
+     </div>
+   
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
 
-  </head>
-  <body>
-    <h1>Twittler</h1>
-    <button>Tweet Me!</button>
-    <script>
+            $('button').click(function () {
+                tweetIt();
+            });
 
-      
-      
+            function generateTweets() {
+                var myTimestamp = jQuery.timeago(new Date());
+                var index = streams.home.length - 1;
+                var tweets = "";
+                while (index >= 0) {
+                    var tweet = streams.home[index];
+                    tweets += '<span class="user" style="cursor:pointer;text-decoration: underline;" uName="@' + tweet.user + '" uMesg="' + tweet.message + '">@' + tweet.user + ': </span>' + tweet.message + ' - ' + myTimestamp + ".<br />";
+                    //$tweet.text( tweetUser + tweet.message + ' - ' + myTimestamp + ".");
+                    index -= 1;
+                }
 
-      $(document).ready(function(){
-        $('button').click(function() {
-          tweetIt();
-      });
+                $('#divAllTweets').html(tweets);
+                $('.user').bind('click', DisplayUserInfo);
+            }
 
+            function DisplayUserInfo() {
+                $('#spName').html($(this).attr('uName'));
+                $('#spMessage').html('Message: ' + $(this).attr('uMesg'));
+            }
+            //'@' + tweet.user + ': ' +
 
+            $('div').click(function () {
 
+            });
 
-         function generateTweets() {
-        var myTimestamp = jQuery.timeago(new Date());
-       var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + myTimestamp + ".");
-          $tweet.appendTo('body');
-          index -= 1;
-        }
-      } 
+            function tweetIt() {
+                var timer = setTimeout(function () {
+                    generateTweets()
+                }, 3000);
 
-      $('individualTweetStream').click(function() {
+                return timer;
+             }
+            generateTweets();
 
-        
-
-      })
-        
-
-        
-        function tweetIt() {
-          var timer = setTimeout(function() {
-          generateTweets() }, 3000);
-
-          return timer;
-      }
-
-       generateTweets();
-
-      });
-
-
-     
-
-    
+        });
 
     </script>
-    <div class="tweetbox" id="middle"></div>
-  </body>
+</body>
 </html>
